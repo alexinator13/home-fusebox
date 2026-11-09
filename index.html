@@ -15,10 +15,10 @@
 .boardhead{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:16px}.boardname{font-weight:800}.chip{font-size:11px;color:var(--muted);border:1px solid var(--line);padding:5px 8px;border-radius:99px}
 .rowlabel{font-size:11px;letter-spacing:.15em;color:var(--muted);font-weight:800;margin:17px 0 9px}
 .rail{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:9px}
-.breaker{min-width:0;min-height:132px;text-align:left;padding:10px 8px;border-radius:12px;border:1px solid #46536b;background:linear-gradient(180deg,#e7e9e7 0,#c7cecf 100%);color:#17202b;cursor:pointer;position:relative;box-shadow:inset 0 2px 0 #fff9,0 5px 12px #0003;transition:transform .15s,border-color .15s}
+.breaker{min-width:0;height:132px;min-height:132px;display:flex;flex-direction:column;align-items:stretch;text-align:left;padding:9px 7px;border-radius:12px;border:1px solid #46536b;background:linear-gradient(180deg,#e7e9e7 0,#c7cecf 100%);color:#17202b;cursor:pointer;position:relative;overflow:hidden;box-shadow:inset 0 2px 0 #fff9,0 5px 12px #0003;transition:transform .15s,border-color .15s}
 .breaker:hover,.breaker:focus-visible{transform:translateY(-3px);outline:2px solid var(--accent);outline-offset:2px}
-.breaker .brand{font-size:9px;color:#59616a;font-weight:800;letter-spacing:.08em}.breaker .switch{height:35px;width:27px;background:linear-gradient(90deg,#303943,#68717a 45%,#242d36);border-radius:5px;margin:7px auto 9px;box-shadow:inset 0 2px 3px #ffffff40,0 2px 3px #0005;position:relative}.breaker .switch:after{content:"";position:absolute;left:4px;right:4px;top:5px;height:10px;border-radius:3px;background:#899198}
-.breaker .rating{font-weight:900;font-size:16px}.breaker .kind{font-size:10px;color:#505b66;margin-top:1px}.breaker .name{font-size:11px;font-weight:750;line-height:1.25;margin-top:6px;overflow-wrap:anywhere}
+.breaker .brand{font-size:9px;color:#59616a;font-weight:800;letter-spacing:.08em;white-space:nowrap;text-align:center}.breaker .switch{flex:0 0 35px;height:35px;width:27px;background:linear-gradient(90deg,#303943,#68717a 45%,#242d36);border-radius:5px;margin:7px auto 8px;box-shadow:inset 0 2px 3px #ffffff40,0 2px 3px #0005;position:relative}.breaker .switch:after{content:"";position:absolute;left:4px;right:4px;top:5px;height:10px;border-radius:3px;background:#899198}
+.breaker .rating{font-weight:900;font-size:15px;line-height:1.1;white-space:nowrap}.breaker .kind{font-size:9px;color:#505b66;margin-top:2px;white-space:nowrap}.breaker .name{font-size:10px;font-weight:800;line-height:1.15;margin-top:5px;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow-wrap:anywhere;min-height:23px;text-align:left}
 .breaker.protect{background:linear-gradient(180deg,#f1f0e8,#d9d8ce)}.breaker.unknown .name{color:#805b18}.breaker.known{border-bottom:4px solid #239a75}.breaker.unknown{border-bottom:4px solid #d19b37}
 .breaker.empty{background:transparent;border:1px dashed #34445d;box-shadow:none;cursor:default;min-height:132px;opacity:.45}.breaker.empty:hover{transform:none;outline:none}
 .legend{display:flex;gap:14px;flex-wrap:wrap;color:var(--muted);font-size:12px;margin-top:14px}.dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px}.dot.green{background:var(--accent)}.dot.amber{background:var(--warn)}
@@ -27,8 +27,8 @@
 .overlay{position:fixed;inset:0;background:#050914c9;display:none;align-items:center;justify-content:center;padding:16px;z-index:5}.overlay.open{display:flex}.modal{width:min(520px,100%);max-height:90vh;overflow:auto;background:#151f32;border:1px solid #40506b;border-radius:19px;padding:20px;box-shadow:0 25px 80px #0009}.modalhead{display:flex;justify-content:space-between;align-items:start;gap:10px}.modal h2{margin:0;font-size:23px}.close{border:0;background:transparent;color:var(--text);font-size:25px;cursor:pointer}.tag{display:inline-block;color:#10241e;background:var(--accent);font-size:11px;font-weight:800;padding:4px 8px;border-radius:99px;margin:10px 0}
 .field{display:block;margin:13px 0}.field span{display:block;font-size:12px;color:var(--muted);margin-bottom:5px}.field input,.field textarea{width:100%;border:1px solid var(--line);border-radius:10px;background:#0d1525;color:var(--text);padding:11px;font:inherit}.field textarea{min-height:88px;resize:vertical}.modalactions{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap;margin-top:17px}
 .disclaimer{font-size:12px;color:#c9d2e1;background:#101a2a;border:1px solid var(--line);border-radius:12px;padding:12px;margin-top:16px}
-@media(max-width:620px){.top{align-items:flex-start;flex-direction:column}.rail{gap:6px}.breaker{min-height:115px;padding:8px 5px}.breaker .switch{height:29px;width:23px;margin:6px auto}.breaker .rating{font-size:14px}.breaker .name{font-size:10px}.breaker .kind{font-size:9px}.panel{padding:12px}.stats{gap:6px}.stat{padding:9px}.stat b{font-size:19px}}
-@media(max-width:380px){.rail{gap:4px}.breaker{padding:7px 3px}.breaker .name{font-size:9px}}
+@media(max-width:620px){.top{align-items:flex-start;flex-direction:column}.rail{gap:6px}.breaker{height:118px;min-height:118px;padding:8px 5px}.breaker .switch{flex-basis:29px;height:29px;width:23px;margin:6px auto}.breaker .rating{font-size:13px}.breaker .name{font-size:9px;line-height:1.15;min-height:21px}.breaker .brand{font-size:8px}.breaker .kind{font-size:8px}.panel{padding:12px}.stats{gap:6px}.stat{padding:9px}.stat b{font-size:19px}}
+@media(max-width:380px){.rail{gap:4px}.breaker{padding:7px 3px;height:112px;min-height:112px}.breaker .name{font-size:8px;min-height:19px}.breaker .rating{font-size:12px}.breaker .brand{font-size:7px}}
 </style>
 </head>
 <body>
@@ -72,16 +72,16 @@
 </div>
 <script>
 const defaults = [
- {id:"main",row:"top",pos:1,type:"Main switch",rating:"63A",room:"Main supply",notes:"Main isolating switch. Confirm exact function and labelling with an electrician.",protect:true},
- {id:"rcd",row:"top",pos:2,type:"RCD / earth-leakage protection",rating:"63A · 30mA",room:"Whole-board protection",notes:"RCD test button is visible. Follow the manufacturer's instructions for testing.",protect:true},
- {id:"t1",row:"top",pos:3,type:"Circuit breaker",rating:"C10",room:"Bedrooms + Bathroom Lights + Water Fountain Socket",notes:"Identified by homeowner.",known:true},
- {id:"t2",row:"top",pos:4,type:"Circuit breaker",rating:"C10",room:"Living Room + Outside Lights",notes:"Identified by homeowner.",known:true},
- {id:"t3",row:"top",pos:5,type:"Circuit breaker",rating:"C10",room:"Kitchen + Dining Room + TV Room + Terrace Lights",notes:"Identified by homeowner.",known:true},
- {id:"b1",row:"bottom",pos:1,type:"Circuit breaker",rating:"C25",room:"Unidentified",notes:"Circuit not yet identified."},
- {id:"b2",row:"bottom",pos:2,type:"Circuit breaker",rating:"C16",room:"Unidentified",notes:"Circuit not yet identified."},
- {id:"b3",row:"bottom",pos:3,type:"Circuit breaker",rating:"C16",room:"Unidentified",notes:"Circuit not yet identified."},
- {id:"b4",row:"bottom",pos:4,type:"Circuit breaker",rating:"C16",room:"Unidentified",notes:"Circuit not yet identified."},
- {id:"b5",row:"bottom",pos:5,type:"Circuit breaker",rating:"C32",room:"TV + Upstairs",notes:"Identified by homeowner.",known:true}
+ {id:"main",row:"top",pos:1,type:"Main switch",label:"MAIN",rating:"63A",room:"Main supply",notes:"Main isolating switch. Confirm exact function and labelling with an electrician.",protect:true},
+ {id:"rcd",row:"top",pos:2,type:"RCD / earth-leakage protection",label:"RCD",rating:"63A · 30mA",room:"Whole-board protection",notes:"RCD test button is visible. Follow the manufacturer's instructions for testing.",protect:true},
+ {id:"t1",row:"top",pos:3,type:"Circuit breaker",label:"C10 · 1",rating:"C10",room:"Bedrooms + Bathroom Lights + Water Fountain Socket",notes:"Identified by homeowner.",known:true},
+ {id:"t2",row:"top",pos:4,type:"Circuit breaker",label:"C10 · 2",rating:"C10",room:"Living Room + Outside Lights",notes:"Identified by homeowner.",known:true},
+ {id:"t3",row:"top",pos:5,type:"Circuit breaker",label:"C10 · 3",rating:"C10",room:"Kitchen + Dining Room + TV Room + Terrace Lights",notes:"Identified by homeowner.",known:true},
+ {id:"b1",row:"bottom",pos:1,type:"Circuit breaker",label:"C25",rating:"C25",room:"Unidentified",notes:"Circuit not yet identified."},
+ {id:"b2",row:"bottom",pos:2,type:"Circuit breaker",label:"C16 · 1",rating:"C16",room:"Unidentified",notes:"Circuit not yet identified."},
+ {id:"b3",row:"bottom",pos:3,type:"Circuit breaker",label:"C16 · 2",rating:"C16",room:"Unidentified",notes:"Circuit not yet identified."},
+ {id:"b4",row:"bottom",pos:4,type:"Circuit breaker",label:"C16 · 3",rating:"C16",room:"Unidentified",notes:"Circuit not yet identified."},
+ {id:"b5",row:"bottom",pos:5,type:"Circuit breaker",label:"C32",rating:"C32",room:"TV + Upstairs",notes:"Identified by homeowner.",known:true}
 ];
 let circuits = load();
 let selected = null, editMode = false;
@@ -94,7 +94,7 @@ function render(){
   circuits.filter(c=>c.row===row).forEach(c=>{
    const known=c.known||c.room!=="Unidentified";
    const btn=document.createElement("button");btn.className="breaker "+(c.protect?"protect":known?"known":"unknown");
-   btn.innerHTML=`<div class="brand">LEGRAND</div><div class="switch"></div><div class="rating">${esc(c.rating)}</div><div class="kind">${c.protect?"PROTECTION": "BREAKER"}</div><div class="name">${esc(c.protect?c.type:c.room)}</div>`;
+   btn.innerHTML=`<div class="brand">LEGRAND</div><div class="switch"></div><div class="rating">${esc(c.rating)}</div><div class="kind">${c.protect?"PROTECTION": "BREAKER"}</div><div class="name">${esc(c.label || (c.protect ? (c.id==="main"?"MAIN":"RCD") : c.rating))}</div>`;
    btn.setAttribute("aria-label",`${c.type}, ${c.rating}, ${c.room}`);btn.addEventListener("click",()=>openCircuit(c.id));rail.appendChild(btn);
   });
  }
