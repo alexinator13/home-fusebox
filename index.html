@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#111827">
+<title>Home Fusebox</title>
+<style>
+:root{color-scheme:dark;--bg:#0b1020;--panel:#151d30;--panel2:#1d2940;--line:#33415c;--muted:#a8b4c9;--text:#f4f7fb;--accent:#75d6b2;--warn:#f3c56b}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#1a2941 0,#0b1020 58%);color:var(--text);font:16px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+.wrap{max-width:960px;margin:auto;padding:24px 16px 48px}.top{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:20px}
+.eyebrow{font-size:11px;letter-spacing:.16em;color:var(--accent);font-weight:800}.title{font-size:clamp(27px,5vw,40px);font-weight:800;letter-spacing:-.04em;margin:4px 0}.sub{color:var(--muted);margin:0}
+.actions{display:flex;gap:8px;flex-wrap:wrap}.btn{border:1px solid var(--line);background:var(--panel2);color:var(--text);border-radius:11px;padding:10px 13px;font-weight:650;cursor:pointer}.btn.primary{background:var(--accent);color:#092018;border-color:var(--accent)}.btn:hover{filter:brightness(1.1)}
+.panel{background:linear-gradient(145deg,#1b263a,#111a2b);border:1px solid var(--line);border-radius:20px;padding:18px;box-shadow:0 18px 50px #0005}
+.boardhead{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:16px}.boardname{font-weight:800}.chip{font-size:11px;color:var(--muted);border:1px solid var(--line);padding:5px 8px;border-radius:99px}
+.rowlabel{font-size:11px;letter-spacing:.15em;color:var(--muted);font-weight:800;margin:17px 0 9px}
+.rail{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:9px}
+.breaker{min-width:0;min-height:132px;text-align:left;padding:10px 8px;border-radius:12px;border:1px solid #46536b;background:linear-gradient(180deg,#e7e9e7 0,#c7cecf 100%);color:#17202b;cursor:pointer;position:relative;box-shadow:inset 0 2px 0 #fff9,0 5px 12px #0003;transition:transform .15s,border-color .15s}
+.breaker:hover,.breaker:focus-visible{transform:translateY(-3px);outline:2px solid var(--accent);outline-offset:2px}
+.breaker .brand{font-size:9px;color:#59616a;font-weight:800;letter-spacing:.08em}.breaker .switch{height:35px;width:27px;background:linear-gradient(90deg,#303943,#68717a 45%,#242d36);border-radius:5px;margin:7px auto 9px;box-shadow:inset 0 2px 3px #ffffff40,0 2px 3px #0005;position:relative}.breaker .switch:after{content:"";position:absolute;left:4px;right:4px;top:5px;height:10px;border-radius:3px;background:#899198}
+.breaker .rating{font-weight:900;font-size:16px}.breaker .kind{font-size:10px;color:#505b66;margin-top:1px}.breaker .name{font-size:11px;font-weight:750;line-height:1.25;margin-top:6px;overflow-wrap:anywhere}
+.breaker.protect{background:linear-gradient(180deg,#f1f0e8,#d9d8ce)}.breaker.unknown .name{color:#805b18}.breaker.known{border-bottom:4px solid #239a75}.breaker.unknown{border-bottom:4px solid #d19b37}
+.breaker.empty{background:transparent;border:1px dashed #34445d;box-shadow:none;cursor:default;min-height:132px;opacity:.45}.breaker.empty:hover{transform:none;outline:none}
+.legend{display:flex;gap:14px;flex-wrap:wrap;color:var(--muted);font-size:12px;margin-top:14px}.dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px}.dot.green{background:var(--accent)}.dot.amber{background:var(--warn)}
+.note{color:var(--muted);font-size:12px;margin:15px 2px 0}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:16px 0}.stat{background:#121b2c;border:1px solid var(--line);border-radius:13px;padding:12px}.stat b{display:block;font-size:22px}.stat span{font-size:11px;color:var(--muted)}
+.overlay{position:fixed;inset:0;background:#050914c9;display:none;align-items:center;justify-content:center;padding:16px;z-index:5}.overlay.open{display:flex}.modal{width:min(520px,100%);max-height:90vh;overflow:auto;background:#151f32;border:1px solid #40506b;border-radius:19px;padding:20px;box-shadow:0 25px 80px #0009}.modalhead{display:flex;justify-content:space-between;align-items:start;gap:10px}.modal h2{margin:0;font-size:23px}.close{border:0;background:transparent;color:var(--text);font-size:25px;cursor:pointer}.tag{display:inline-block;color:#10241e;background:var(--accent);font-size:11px;font-weight:800;padding:4px 8px;border-radius:99px;margin:10px 0}
+.field{display:block;margin:13px 0}.field span{display:block;font-size:12px;color:var(--muted);margin-bottom:5px}.field input,.field textarea{width:100%;border:1px solid var(--line);border-radius:10px;background:#0d1525;color:var(--text);padding:11px;font:inherit}.field textarea{min-height:88px;resize:vertical}.modalactions{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap;margin-top:17px}
+.disclaimer{font-size:12px;color:#c9d2e1;background:#101a2a;border:1px solid var(--line);border-radius:12px;padding:12px;margin-top:16px}
+@media(max-width:620px){.top{align-items:flex-start;flex-direction:column}.rail{gap:6px}.breaker{min-height:115px;padding:8px 5px}.breaker .switch{height:29px;width:23px;margin:6px auto}.breaker .rating{font-size:14px}.breaker .name{font-size:10px}.breaker .kind{font-size:9px}.panel{padding:12px}.stats{gap:6px}.stat{padding:9px}.stat b{font-size:19px}}
+@media(max-width:380px){.rail{gap:4px}.breaker{padding:7px 3px}.breaker .name{font-size:9px}}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <header class="top">
+    <div><div class="eyebrow">HOME ELECTRICAL DIRECTORY</div><h1 class="title">My Fusebox</h1><p class="sub">Tap a breaker to see its circuit details.</p></div>
+    <div class="actions"><button class="btn" id="editToggle">Edit details</button><button class="btn" id="exportBtn">Export backup</button><button class="btn" id="resetBtn">Reset</button></div>
+  </header>
+  <section class="panel">
+    <div class="boardhead"><div><div class="boardname">Legrand · TSM 24 WAY</div><div class="sub" style="font-size:12px">Digital circuit directory</div></div><span class="chip">BOARD MAP · V1</span></div>
+    <div class="rowlabel">TOP ROW · LEFT TO RIGHT</div>
+    <div class="rail" id="topRail"></div>
+    <div class="rowlabel">BOTTOM ROW · LEFT TO RIGHT</div>
+    <div class="rail" id="bottomRail"></div>
+    <div class="legend"><span><i class="dot green"></i>Identified circuit</span><span><i class="dot amber"></i>Not yet identified</span></div>
+    <p class="note">The drawing is a digital reference, not an operating control. It does not switch electricity on or off.</p>
+  </section>
+  <div class="stats">
+    <div class="stat"><b id="knownCount">4</b><span>Identified circuits</span></div>
+    <div class="stat"><b id="unknownCount">4</b><span>Unidentified circuits</span></div>
+    <div class="stat"><b>2</b><span>Protection devices</span></div>
+  </div>
+  <div class="disclaimer"><b>Safety:</b> Circuit labels are based on the information supplied so far, not an electrical test. Have an electrician verify every circuit and rating. Never remove the cover or touch internal wiring to identify a breaker.</div>
+</main>
+<div class="overlay" id="overlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal">
+    <div class="modalhead"><div><div class="eyebrow" id="modalPosition">TOP ROW</div><h2 id="modalTitle">Circuit</h2><span class="tag" id="modalTag">IDENTIFIED</span></div><button class="close" id="closeModal" aria-label="Close">×</button></div>
+    <div id="viewMode">
+      <p><b>Connected to</b></p><p id="viewRoom" style="margin-top:-8px;color:#cbd5e1"></p>
+      <p><b>Comments</b></p><p id="viewNotes" style="margin-top:-8px;color:#cbd5e1;white-space:pre-wrap"></p>
+      <p style="font-size:12px;color:#a8b4c9" id="viewRating"></p>
+    </div>
+    <form id="editForm" hidden>
+      <label class="field"><span>Room / circuit name</span><input id="roomInput" maxlength="120"></label>
+      <label class="field"><span>Appliances / areas</span><textarea id="notesInput" maxlength="1000"></textarea></label>
+      <label class="field"><span>Breaker rating (reference only)</span><input id="ratingInput" maxlength="40"></label>
+      <div class="modalactions"><button type="button" class="btn" id="cancelEdit">Cancel</button><button class="btn primary" type="submit">Save changes</button></div>
+    </form>
+    <div class="modalactions" id="viewActions"><button class="btn primary" id="editThis">Edit this circuit</button></div>
+  </div>
+</div>
+<script>
+const defaults = [
+ {id:"main",row:"top",pos:1,type:"Main switch",rating:"63A",room:"Main supply",notes:"Main isolating switch. Confirm exact function and labelling with an electrician.",protect:true},
+ {id:"rcd",row:"top",pos:2,type:"RCD / earth-leakage protection",rating:"63A · 30mA",room:"Whole-board protection",notes:"RCD test button is visible. Follow the manufacturer's instructions for testing.",protect:true},
+ {id:"t1",row:"top",pos:3,type:"Circuit breaker",rating:"C10",room:"Bedrooms + Bathroom Lights + Water Fountain Socket",notes:"Identified by homeowner.",known:true},
+ {id:"t2",row:"top",pos:4,type:"Circuit breaker",rating:"C10",room:"Living Room + Outside Lights",notes:"Identified by homeowner.",known:true},
+ {id:"t3",row:"top",pos:5,type:"Circuit breaker",rating:"C10",room:"Kitchen + Dining Room + TV Room + Terrace Lights",notes:"Identified by homeowner.",known:true},
+ {id:"b1",row:"bottom",pos:1,type:"Circuit breaker",rating:"C25",room:"Unidentified",notes:"Circuit not yet identified."},
+ {id:"b2",row:"bottom",pos:2,type:"Circuit breaker",rating:"C16",room:"Unidentified",notes:"Circuit not yet identified."},
+ {id:"b3",row:"bottom",pos:3,type:"Circuit breaker",rating:"C16",room:"Unidentified",notes:"Circuit not yet identified."},
+ {id:"b4",row:"bottom",pos:4,type:"Circuit breaker",rating:"C16",room:"Unidentified",notes:"Circuit not yet identified."},
+ {id:"b5",row:"bottom",pos:5,type:"Circuit breaker",rating:"C32",room:"TV + Upstairs",notes:"Identified by homeowner.",known:true}
+];
+let circuits = load();
+let selected = null, editMode = false;
+function load(){try{const saved=localStorage.getItem("homeFuseboxV1");if(saved){const parsed=JSON.parse(saved);return defaults.map(d=>({...d,...(parsed.find(x=>x.id===d.id)||{})}));}}catch(e){}return defaults.map(x=>({...x}));}
+function persist(){localStorage.setItem("homeFuseboxV1",JSON.stringify(circuits));}
+function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+function render(){
+ for(const row of ["top","bottom"]){
+  const rail=document.getElementById(row+"Rail");rail.innerHTML="";
+  circuits.filter(c=>c.row===row).forEach(c=>{
+   const known=c.known||c.room!=="Unidentified";
+   const btn=document.createElement("button");btn.className="breaker "+(c.protect?"protect":known?"known":"unknown");
+   btn.innerHTML=`<div class="brand">LEGRAND</div><div class="switch"></div><div class="rating">${esc(c.rating)}</div><div class="kind">${c.protect?"PROTECTION": "BREAKER"}</div><div class="name">${esc(c.protect?c.type:c.room)}</div>`;
+   btn.setAttribute("aria-label",`${c.type}, ${c.rating}, ${c.room}`);btn.addEventListener("click",()=>openCircuit(c.id));rail.appendChild(btn);
+  });
+ }
+ document.getElementById("knownCount").textContent=circuits.filter(c=>!c.protect&&(c.known||c.room!=="Unidentified")).length;
+ document.getElementById("unknownCount").textContent=circuits.filter(c=>!c.protect&&!(c.known||c.room!=="Unidentified")).length;
+}
+function openCircuit(id){selected=circuits.find(c=>c.id===id);if(!selected)return;document.getElementById("modalPosition").textContent=(selected.row==="top"?"TOP":"BOTTOM")+" ROW · POSITION "+selected.pos;document.getElementById("modalTitle").textContent=selected.type;document.getElementById("modalTag").textContent=selected.protect?"PROTECTION DEVICE":selected.room==="Unidentified"?"NOT IDENTIFIED":"IDENTIFIED";document.getElementById("viewRoom").textContent=selected.room;document.getElementById("viewNotes").textContent=selected.notes||"No comments yet.";document.getElementById("viewRating").textContent="Label on device: "+selected.rating;showView();document.getElementById("overlay").classList.add("open");}
+function showView(){document.getElementById("viewMode").hidden=false;document.getElementById("viewActions").hidden=false;document.getElementById("editForm").hidden=true;}
+function showEdit(){document.getElementById("viewMode").hidden=true;document.getElementById("viewActions").hidden=true;document.getElementById("editForm").hidden=false;document.getElementById("roomInput").value=selected.room;document.getElementById("notesInput").value=selected.notes;document.getElementById("ratingInput").value=selected.rating;}
+function close(){document.getElementById("overlay").classList.remove("open");selected=null;}
+document.getElementById("editToggle").onclick=()=>{editMode=!editMode;document.getElementById("editToggle").textContent=editMode?"Edit mode: ON":"Edit details";document.getElementById("editToggle").classList.toggle("primary",editMode);};
+document.getElementById("editThis").onclick=showEdit;
+document.getElementById("cancelEdit").onclick=showView;
+document.getElementById("closeModal").onclick=close;
+document.getElementById("overlay").addEventListener("click",e=>{if(e.target.id==="overlay")close();});
+document.getElementById("editForm").onsubmit=e=>{e.preventDefault();selected.room=document.getElementById("roomInput").value.trim()||"Unidentified";selected.notes=document.getElementById("notesInput").value.trim();selected.rating=document.getElementById("ratingInput").value.trim();selected.known=!selected.protect&&selected.room!=="Unidentified";persist();render();openCircuit(selected.id);};
+document.getElementById("exportBtn").onclick=()=>{const blob=new Blob([JSON.stringify(circuits,null,2)],{type:"application/json"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="my-fusebox-backup.json";a.click();URL.revokeObjectURL(a.href);};
+document.getElementById("resetBtn").onclick=()=>{if(confirm("Reset all circuit details to the original information? This cannot be undone.")){localStorage.removeItem("homeFuseboxV1");circuits=defaults.map(x=>({...x}));render();}};
+render();
+</script>
+</body></html>
